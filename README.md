@@ -10,7 +10,7 @@ A relational database for a school system with five entities: Students, Classroo
 | Member B | Cynthia | Classroom |
 | Member C | Carrick | Faculty |
 | Member D | name | Courses |
-| Member E | name | Extra_Curricular_Activities + Student_Courses + Student_Activities |
+| Member E | Chlomi | Extra_Curricular_Activities + Student_Courses + Student_Activities |
 
 ## File
 
