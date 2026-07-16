@@ -23,7 +23,36 @@ DELETE FROM Classroom WHERE room_number = '118';
 -- SELECT with WHERE: Cynthia
 SELECT * FROM Classroom WHERE capacity > 60;
 
--- MEMBER C(name): Faculty table
+
+-- MEMBER C(Carrick): Faculty table
+
+-- Table Creation
+CREATE TABLE Faculty (
+    faculty_id  INT PRIMARY KEY AUTO_INCREMENT,
+    name        VARCHAR(100) NOT NULL,
+    email       VARCHAR(100) NOT NULL,
+    department  VARCHAR(50)
+);
+
+-- Adding Sample Rows
+INSERT INTO Faculty (name, email, department)
+VALUES
+    ('Chlomi Justifié',  'chlomi.justifié@alu.com',  'Computer Science'),
+    ('Isimbi Nina', 'isimbi.nina@alu.com', 'Mathematics'),
+    ('Chance Aubin',  'chance.aubin@alu.com', 'English'),
+    ('David-Harold',  'david.harold@alu.com',  'Physics'),
+    ('Cynthia Umwali', 'cynthia.umwali@alu.com', 'Computer Science');
+
+-- UPDATE Statement
+UPDATE Faculty SET department = 'Computer Science & AI' WHERE faculty_id = 1;
+
+-- DELETE Statement
+DELETE FROM Faculty WHERE email = 'cynthia.umwali@alu.com';
+
+-- SELECT with WHERE
+SELECT * FROM Faculty WHERE department = 'Computer Science';
+
+
 
 -- MEMBER D(name): Courses table
 
