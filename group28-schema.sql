@@ -86,6 +86,38 @@ SELECT * FROM Faculty WHERE department = 'Computer Science';
 
 -- MEMBER D(name): Courses table
 
+-- Table Creation:
+
+CREATE TABLE Courses (
+	course_id     INT PRIMARY KEY AUTO_INCREMENT,
+    	course_name   VARCHAR(100) NOT NULL,
+    	credits       INT NOT NULL,
+    	faculty_id    INT NOT NULL,
+    	classroom_id  INT NOT NULL,
+	CONSTRAINT fk_courses_faculty
+	    FOREIGN KEY (faculty_id) REFERENCES Faculty(faculty_id),
+	CONSTRAINT fk_courses_classroom
+	    FOREIGN KEY (classroom_id) REFERENCES Classroom(classroom_id)
+);
+
+-- Inserting Values
+
+INSERT INTO Courses (course_name, credits, faculty_id, classroom_id) VALUES
+   ('Intro to Programming', 4, 1, 2),
+   ('Self Leadership', 3, 2, 5),
+   ('Intro to Linux', 3, 3, 2),
+   ('Learning Process', 4, 4, 6),
+   ('Data Structures', 4, 4, 6);
+
+-- UPDATE Statement: Aubin
+UPDATE Courses SET credits = 5 WHERE course_name = 'Data Structures';
+
+-- DELETE Statement: Aubin
+DELETE FROM Courses WHERE course_name = 'Learning Process';
+
+-- SELECT with WHERE: Aubin
+SELECT * FROM Courses WHERE credits >= 4;
+		
 -- MEMBER E(name): Extra_Curricular_Activities table + the two junction tables (Student_Courses, Student_Activities)
 
 
