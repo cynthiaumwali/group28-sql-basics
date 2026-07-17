@@ -9,6 +9,16 @@ USE group28_db;
 
 -- ========== 2. CREATE TABLES ==========
 
+
+
+-- ---------- MEMBER B (Cynthia): Classroom ----------
+CREATE TABLE Classroom (
+    classroom_id  INT PRIMARY KEY AUTO_INCREMENT,
+    room_number   VARCHAR(10) NOT NULL,
+    building      VARCHAR(50) NOT NULL,
+    capacity      INT NOT NULL
+);
+
 -- ---------- MEMBER A (Nina): Students ----------
 CREATE TABLE Students (
     student_id      INT AUTO_INCREMENT PRIMARY KEY,
@@ -18,14 +28,6 @@ CREATE TABLE Students (
     enrollment_date DATE         NOT NULL,
     CONSTRAINT fk_students_classroom
         FOREIGN KEY (classroom_id) REFERENCES Classroom(classroom_id)
-);
-
--- ---------- MEMBER B (Cynthia): Classroom ----------
-CREATE TABLE Classroom (
-    classroom_id  INT PRIMARY KEY AUTO_INCREMENT,
-    room_number   VARCHAR(10) NOT NULL,
-    building      VARCHAR(50) NOT NULL,
-    capacity      INT NOT NULL
 );
 
 -- ---------- MEMBER C (Carrick): Faculty ----------
