@@ -122,7 +122,7 @@ SELECT * FROM Courses WHERE credits >= 4;
 
 -- TABLE CREATION
 CREATE TABLE Extra_Curricular_Activities(
-	activity_id INT PRIMARY KEY,
+	activity_id INT PRIMARY KEY AUTO_INCREMENT,
 	activity_name VARCHAR(100),
 	category VARCHAR(50),
 	faculty_advisor_id INT,
@@ -133,19 +133,18 @@ CREATE TABLE Extra_Curricular_Activities(
 INSERT INTO Extra_Curricular_Activities (activity_name, category, faculty_advisor_id) VALUES
 	('Coding', 'Tech', 1),
 	('Singing', 'Music', 2),
-	('Robotics' 'Tech', 1),
+	('Robotics', 'Tech', 1),
 	('Debate', 'Language', 3),
-	('Spelling', 'Language', 3),
-);
+	('Spelling', 'Language', 3);
 
 -- UPDATE STATEMENT:
-UPDATE Extra_Curricular_Activities SET(activity_name="Programming") WHERE activity_name="Coding";
+UPDATE Extra_Curricular_Activities SET activity_name = 'Programming' WHERE activity_name='Coding';
 
 -- DELETE STATEMENT:
-DELETE Extra_Curricular_Activities WHERE activity_name="Singing";
+DELETE FROM Extra_Curricular_Activities WHERE activity_name = 'Singing';
 
 -- SELECT STATEMENT:
-SELECT * FROM Extra_Curricular_Activities WHERE category="Language";
+SELECT * FROM Extra_Curricular_Activities WHERE category = 'Language';
 -- ============================================================
 -- MEMBER E (David-Harold): Junction tables
 -- Student_Courses + Student_Activities (many-to-many links)
