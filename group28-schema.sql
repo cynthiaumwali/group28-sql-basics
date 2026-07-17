@@ -146,5 +146,117 @@ DELETE Extra_Curricular_Activities WHERE activity_name="Singing";
 
 -- SELECT STATEMENT:
 SELECT * FROM Extra_Curricular_Activities WHERE category="Language";
+-- ============================================================
+-- MEMBER E (David-Harold): Junction tables
+-- Student_Courses + Student_Activities (many-to-many links)
+-- ============================================================
 
--- GROUP TASKS
+-- TABLE CREATION: Student_Courses (links Students <-> Courses)
+CREATE TABLE Student_Courses (
+    student_id INT NOT NULL,
+    course_id  INT NOT NULL,
+    enrollment_date DATE,
+    PRIMARY KEY (student_id, course_id),
+    CONSTRAINT fk_sc_student
+        FOREIGN KEY (student_id) REFERENCES Students(student_id),
+    CONSTRAINT fk_sc_course
+        FOREIGN KEY (course_id) REFERENCES Courses(course_id)
+);
+
+-- TABLE CREATION: Student_Activities (links Students <-> Extra_Curricular_Activities)
+CREATE TABLE Student_Activities (
+    student_id  INT NOT NULL,
+    activity_id INT NOT NULL,
+    join_date DATE,
+    PRIMARY KEY (student_id, activity_id),
+    CONSTRAINT fk_sa_student
+        FOREIGN KEY (student_id) REFERENCES Students(student_id),
+    CONSTRAINT fk_sa_activity
+        FOREIGN KEY (activity_id) REFERENCES Extra_Curricular_Activities(activity_id)
+);
+
+-- INSERTING VALUES: Student_Courses
+-- (students 1-4 and courses 1,2,3,5 still exist after earlier DELETEs)
+INSERT INTO Student_Courses (student_id, course_id, enrollment_date) VALUES
+    (1, 1, '2024-09-02'),
+    (1, 3, '2024-09-02'),
+    (2, 2, '2024-09-03'),
+    (3, 1, '2024-09-02'),
+    (3, 5, '2024-09-04'),
+    (4, 2, '2024-09-03');
+
+-- INSERTING VALUES: Student_Activities
+-- (activities 1,3,4,5 still exist after Singing is deleted)
+INSERT INTO Student_Activities (student_id, activity_id, join_date) VALUES
+    (1, 1, '2024-09-10'),
+    (1, 4, '2024-09-11'),
+    (2, 3, '2024-09-10'),
+    (3, 1, '2024-09-12'),
+    (4, 5, '2024-09-12');
+
+-- UPDATE Statement: David-Harold
+-- Move student 2 from Robotics (3) to Debate (4)
+UPDATE Student_Activities SET activity_id = 4 WHERE student_id = 2 AND activity_id = 3;
+
+-- DELETE Statement: David-Harold
+-- Student 3 drops Data Structures
+DELETE FROM Student_Courses WHERE student_id = 3 AND course_id = 5;
+
+-- SELECT with WHERE: David-Harold
+SELECT * FROM Student_Courses WHERE student_id = 1;
+
+
+-- ============================================================
+-- GROUP TASKS: Join queries + aggregate
+-- ============================================================
+
+-- JOIN 1 (David-Harold): "Student X is enrolled in Course Y, taught by Faculty Z, in Classroom W."
+SELECT CONCAT(
+    s.name, ' is enrolled in ', c.course_name,
+    ', taught by ', f.name,
+    ', in classroom ', cl.room_number, ' (', cl.building, ').'
+) AS sentence
+FROM Student_Courses sc
+JOIN Students  s  ON sc.student_id  = s.student_id
+JOIN Courses   c  ON sc.course_id   = c.course_id
+JOIN Faculty   f  ON c.faculty_id   = f.faculty_id
+JOIN Classroom cl ON c.classroom_id = cl.classroom_id;
+
+-- JOIN 2: "Student X participates in Activity Y, advised by Faculty Z."
+SELECT CONCAT(
+    s.name, ' participates in ', a.activity_name,
+    ', advised by ', f.name, '.'
+) AS sentence
+FROM Student_Activities sa
+JOIN Students s ON sa.student_id = s.student_id
+JOIN Extra_Curricular_Activities a ON sa.activity_id = a.activity_id
+JOIN Faculty  f ON a.faculty_advisor_id = f.faculty_id;
+
+-- JOIN 3 (our choice): "Faculty X teaches Course Y worth Z credits in Building W."
+SELECT CONCAT(
+    f.name, ' teaches ', c.course_name,
+    ' (', c.credits, ' credits) in the ', cl.building, '.'
+) AS sentence
+FROM Courses c
+JOIN Faculty   f  ON c.faculty_id   = f.faculty_id
+JOIN Classroom cl ON c.classroom_id = cl.classroom_id;
+
+-- AGGREGATE: number of students enrolled in each course
+SELECT c.course_name, COUNT(sc.student_id) AS enrolled_students
+FROM Courses c
+LEFT JOIN Student_Courses sc ON c.course_id = sc.course_id
+GROUP BY c.course_name;
+
+-- ============================================================
+-- NORMALIZATION CHECK (group answer)
+-- Our schema avoids repeated data: each fact lives in exactly one
+-- table. Student, faculty, and classroom details are stored once and
+-- referenced elsewhere by foreign key instead of being copied (e.g.
+-- Courses stores faculty_id, not the teacher's name). The two junction
+-- tables, Student_Courses and Student_Activities, correctly resolve
+-- the many-to-many relationships: without them we would have to
+-- repeat a student's row for every course or activity they take,
+-- duplicating their name and email. With composite primary keys
+-- (student_id + course_id / activity_id), each enrollment is recorded
+-- exactly once, so the schema satisfies third normal form.
+-- ============================================================
