@@ -4,7 +4,7 @@ DROP DATABASE IF EXISTS group28_db;
 CREATE DATABASE group28_db;
 USE group28_db;
 
--- MEMBER A(name): Students table
+
 
 -- MEMBER B(Cynthia): Classroom table
 
@@ -22,6 +22,36 @@ DELETE FROM Classroom WHERE room_number = '118';
 
 -- SELECT with WHERE: Cynthia
 SELECT * FROM Classroom WHERE capacity > 60;
+
+-- MEMBER A(Nina): Students table
+-- Table Creation
+CREATE TABLE Students (
+    student_id      INT AUTO_INCREMENT PRIMARY KEY,
+    name            VARCHAR(100) NOT NULL,
+    email           VARCHAR(100) UNIQUE NOT NULL,
+    classroom_id    INT          NOT NULL,
+    enrollment_date DATE         NOT NULL,
+    CONSTRAINT fk_students_classroom
+        FOREIGN KEY (classroom_id) REFERENCES Classroom(classroom_id)
+);
+
+-- Adding Sample Rows
+INSERT INTO Students (name, email, classroom_id, enrollment_date) VALUES
+('Shyaka Carrick',   'shyaka.carrick@alustudent.com',   1, '2024-09-01'),
+('Isimbi Henriette', 'isimbi.henriette@alustudent.com', 5, '2024-09-01'),
+('Ishimwe David',    'i.david@alustudent.com',          1, '2024-09-01'),
+('Umwali Sarah',     'umwali.sarah@alustudent.com',     3, '2024-09-01'),
+('Uwase Aline',      'uwase.aline@alustudent.com',      2, '2024-09-01');
+
+-- UPDATE Statement
+UPDATE Students SET classroom_id = 6 WHERE student_id = 3;
+
+-- DELETE Statement
+DELETE FROM Students WHERE student_id = 5;
+
+-- SELECT with WHERE
+SELECT * FROM Students WHERE enrollment_date = '2024-09-01';
+
 
 
 -- MEMBER C(Carrick): Faculty table
