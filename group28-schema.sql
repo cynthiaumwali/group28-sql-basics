@@ -126,16 +126,16 @@ CREATE TABLE Extra_Curricular_Activities(
 	activity_name VARCHAR(100),
 	category VARCHAR(50),
 	faculty_advisor_id INT,
-	FOREIGN KEY faculty_advisor_id REFERENCES Faculty.faculty_id
+	FOREIGN KEY (faculty_advisor_id) REFERENCES Faculty(faculty_id)
 );
 
 -- INSERTING VALUES
-INSERT INTO Extra_Curricular_Activities(activity_name, category, faculty_advisor_id) VALUES
-	("Coding", "Tech", 1),
-	("Singing", "Music", 2),
-	("Robotics" "Tech", 1)
-	("Debate", "Language", 3)
-	("Spelling", "Language", 3)
+INSERT INTO Extra_Curricular_Activities (activity_name, category, faculty_advisor_id) VALUES
+	('Coding', 'Tech', 1),
+	('Singing', 'Music', 2),
+	('Robotics' 'Tech', 1),
+	('Debate', 'Language', 3),
+	('Spelling', 'Language', 3),
 );
 
 -- UPDATE STATEMENT:
