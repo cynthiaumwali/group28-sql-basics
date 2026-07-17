@@ -182,7 +182,7 @@ SELECT * FROM Student_Courses WHERE student_id = 1;
 
 -- ========== 5. GROUP TASKS: JOIN QUERIES + AGGREGATE ==========
 
--- JOIN 1 (David-Harold): "Student X is enrolled in Course Y, taught by Faculty Z, in Classroom W."
+-- JOIN 1: "Student X is enrolled in Course Y, taught by Faculty Z, in Classroom W."
 SELECT CONCAT(
     s.name, ' is enrolled in ', c.course_name,
     ', taught by ', f.name,
@@ -204,7 +204,7 @@ JOIN Students s ON sa.student_id = s.student_id
 JOIN Extra_Curricular_Activities a ON sa.activity_id = a.activity_id
 JOIN Faculty  f ON a.faculty_advisor_id = f.faculty_id;
 
--- JOIN 3 (our choice): "Faculty X teaches Course Y worth Z credits in Building W."
+-- JOIN 3 : "Faculty X teaches Course Y worth Z credits in Building W."
 SELECT CONCAT(
     f.name, ' teaches ', c.course_name,
     ' (', c.credits, ' credits) in the ', cl.building, '.'
