@@ -120,5 +120,31 @@ SELECT * FROM Courses WHERE credits >= 4;
 		
 -- MEMBER E(name): Extra_Curricular_Activities table + the two junction tables (Student_Courses, Student_Activities)
 
+-- TABLE CREATION
+CREATE TABLE Extra_Curricular_Activities(
+	activity_id INT PRIMARY KEY,
+	activity_name VARCHAR(100),
+	category VARCHAR(50),
+	faculty_advisor_id INT,
+	FOREIGN KEY faculty_advisor_id REFERENCES Faculty.faculty_id
+);
+
+-- INSERTING VALUES
+INSERT INTO Extra_Curricular_Activities(activity_name, category, faculty_advisor_id) VALUES
+	("Coding", "Tech", 1),
+	("Singing", "Music", 2),
+	("Robotics" "Tech", 1)
+	("Debate", "Language", 3)
+	("Spelling", "Language", 3)
+);
+
+-- UPDATE STATEMENT:
+UPDATE Extra_Curricular_Activities SET(activity_name="Programming") WHERE activity_name="Coding";
+
+-- DELETE STATEMENT:
+DELETE Extra_Curricular_Activities WHERE activity_name="Singing";
+
+-- SELECT STATEMENT:
+SELECT * FROM Extra_Curricular_Activities WHERE category="Language";
 
 -- GROUP TASKS
